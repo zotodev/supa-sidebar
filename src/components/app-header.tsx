@@ -1,5 +1,7 @@
-import { Search, Settings } from "lucide-react";
+"use client";
 
+import { Moon, Search, Settings, Sun } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +14,13 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function AppHeader() {
+  const { resolvedTheme, setTheme } = useTheme();
+
   return (
     <header className="flex h-12 w-full shrink-0 items-center gap-3 border-b border-sidebar-border bg-sidebar px-2 md:px-4">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="md:hidden" />
-        <Badge variant="secondary">Development</Badge>
+        <Badge variant="outline">Development</Badge>
       </div>
 
       <button
@@ -30,18 +34,30 @@ export function AppHeader() {
         </kbd>
       </button>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Settings">
-            <Settings />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>To be implemented</DialogTitle>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <div className="flex items-center gap-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Toggle theme"
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        >
+          <Sun className="hidden dark:block" />
+          <Moon className="dark:hidden" />
+        </Button>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Settings">
+              <Settings />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>To be implemented</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </header>
   );
 }
